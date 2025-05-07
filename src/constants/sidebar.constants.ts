@@ -10,7 +10,7 @@ interface NavigationItem {
 export const SIDEBAR_NAV_ITEMS: NavigationItem[] = [
   {
     title: 'Trips',
-    path: `trips`,
+    path: `/trips`,
     icon: faBus,
   },
 ];

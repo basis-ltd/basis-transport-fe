@@ -1,8 +1,9 @@
-import { UUID } from "crypto";
+import { UUID } from 'crypto';
 
-export interface BaseEntity {
-    id: UUID;
-    createdAt: Date;
-    updatedAt: Date;
+export { UUID };
+
+export interface AbstractEntity {
+  id: UUID;
+  createdAt: Date;
+  updatedAt: Date;
 }
-

@@ -1,5 +1,6 @@
 import Login from '@/pages/auth/Login';
 import Home from '@/pages/common/Home';
+import UserDashboard from '@/pages/dashboard/UserDashboard';
 import { Routes, Route } from 'react-router-dom';
 
 const Router = () => {
@@ -13,6 +14,13 @@ const Router = () => {
        */}
       <Route path="/auth">
         <Route path="login" element={<Login />} />
+      </Route>
+
+      {/**
+       * DASHBOARD
+       */}
+      <Route path="/dashboard">
+        <Route path="" element={<UserDashboard />} />
       </Route>
     </Routes>
   );
