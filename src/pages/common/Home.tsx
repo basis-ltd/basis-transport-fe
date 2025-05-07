@@ -1,12 +1,23 @@
-import Button from '@/components/inputs/Button';
+import { useAppSelector } from '@/states/hooks';
+import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
 const Home = () => {
-  return (
-    <main className="h-screen w-full flex flex-col gap-4 bg-white items-center justify-center">
-      <h1 className="text-4xl font-bold">Basis Transport</h1>
-      <Button to={'/auth/login'}>Login</Button>
-    </main>
-  );
+  /**
+   * STATE VARIABLES
+   */
+  const { user, token } = useAppSelector((state) => state.auth);
+
+  /**
+   * EFFECTS
+   */
+  useEffect(() => {
+    if (!user || !token) {
+      window.location.href = '/auth/login';
+    }
+  }, [user, token]);
+
+  return <Navigate to="/dashboard" />;
 };
 
 export default Home;

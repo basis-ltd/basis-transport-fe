@@ -1,6 +1,8 @@
 import Button from '@/components/inputs/Button';
 import Input from '@/components/inputs/Input';
 import { Heading } from '@/components/inputs/TextInputs';
+import validateInputs from '@/helpers/validations.helper';
+import { useLogin } from '@/usecases/auth/auth.hooks';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -11,6 +13,9 @@ const Login = () => {
    * STATE VARIABLES
    */
   const [showPassword, setShowPassword] = useState(false);
+
+  // LOGIN USECASES
+  const { login, loginIsLoading } = useLogin();
 
   /**
    * REACT HOOK FORM
@@ -23,9 +28,11 @@ const Login = () => {
 
   // HANDLE FORM SUBMIT
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    login({
+      email: data?.email,
+      password: data?.password,
+    });
   });
-
   return (
     <main className="w-full h-screen items-center justify-center flex flex-col gap-4">
       <form
@@ -42,6 +49,12 @@ const Login = () => {
           <Controller
             control={control}
             name="email"
+            rules={{
+              required: `Please enter your email address`,
+              validate: (value) =>
+                validateInputs(value, 'email') ||
+                'Please enter a valid email address',
+            }}
             render={({ field }) => (
               <Input
                 {...field}
@@ -55,6 +68,9 @@ const Login = () => {
           <Controller
             control={control}
             name="password"
+            rules={{
+              required: `Please enter your password`,
+            }}
             render={({ field }) => (
               <Input
                 {...field}
@@ -91,7 +107,9 @@ const Login = () => {
             Forgot Password?
           </Link>
         </menu>
-        <Button type="submit">Login</Button>
+        <Button type="submit" isLoading={loginIsLoading}>
+          Login
+        </Button>
       </form>
     </main>
   );
