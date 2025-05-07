@@ -1,0 +1,49 @@
+import { RootState, AppDispatch } from '@/states/store';
+import { FC, ReactNode } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import { setIsOpen } from '@/states/slices/sidebarSlice';
+
+interface AppLayoutProps {
+  children: ReactNode;
+}
+
+const AppLayout: FC<AppLayoutProps> = ({ children }) => {
+  // STATE VARIABLES
+  const { isOpen: isSidebarOpen } = useSelector(
+    (state: RootState) => state.sidebar
+  );
+  const dispatch: AppDispatch = useDispatch();
+
+  const sectionClasses = [
+    'pt-[9vh]',
+    'min-h-[91vh]',
+    'p-6 px-8',
+    'mt-4',
+    'transition-all duration-300 ease-in-out bg-white',
+    isSidebarOpen ? 'ml-0 md:ml-[18vw]' : 'ml-16 md:ml-[6vw]',
+  ].join(' ');
+
+  return (
+    <main className="relative">
+      <Navbar />
+      <Sidebar />
+      {isSidebarOpen && (
+        <aside
+          className="fixed inset-0 top-0 left-0 bg-black/50 z-[998] md:hidden"
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch(setIsOpen(false));
+          }}
+          aria-hidden="true"
+        />
+      )}
+      <section className={sectionClasses}>
+        {children}
+      </section>
+    </main>
+  );
+};
+
+export default AppLayout;
