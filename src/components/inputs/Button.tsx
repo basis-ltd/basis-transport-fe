@@ -11,6 +11,7 @@ interface ButtonProps {
   isLoading?: boolean;
   primary?: boolean;
   danger?: boolean;
+  variant?: 'primary' | 'danger' | 'secondary' | 'outline';
 }
 
 const Button = ({
@@ -20,20 +21,33 @@ const Button = ({
   type,
   onClick,
   isLoading,
-  primary,
-  danger,
+  variant = 'primary',
 }: ButtonProps) => {
+
+  let variantClasses = '';
+
+  switch (variant) {
+    case 'primary':
+      variantClasses = '!bg-primary text-white';
+      break;
+    case 'danger':
+      variantClasses = '!bg-red-700 text-white';
+      break;
+    case 'secondary':
+      variantClasses = 'bg-white text-primary';
+      break;
+    case 'outline':
+      variantClasses = 'bg-white text-primary border border-primary';
+      break;
+    default:
+      variantClasses = 'bg-white text-primary';
+  }
+
   if (type && ['submit', 'reset'].includes(type)) {
     return (
       <button
         type={type}
-        className={`${
-          primary
-            ? '!bg-primary text-white'
-            : danger
-            ? '!bg-red-700 text-white'
-            : 'bg-white text-primary'
-        } inline-flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 transition-colors duration-200 ${className}`}
+        className={`${variantClasses} inline-flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-normal text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 transition-colors duration-200 ${className}`}
       >
         {isLoading ? <Loader className="text-white" /> : children}
       </button>
@@ -44,13 +58,7 @@ const Button = ({
     <Link
       to={to || ''}
       onClick={onClick}
-      className={`${
-        primary
-          ? '!bg-primary text-white'
-          : danger
-          ? '!bg-red-700 text-white'
-          : 'bg-white text-primary'
-      } inline-flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 transition-colors duration-200 ${className}`}
+      className={`${variantClasses} inline-flex items-center justify-center cursor-pointer px-4 py-2 text-sm font-normal text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 transition-colors duration-200 ${className}`}
     >
       {isLoading ? <Loader className="text-white" /> : children}
     </Link>

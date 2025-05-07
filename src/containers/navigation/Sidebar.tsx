@@ -81,7 +81,7 @@ const Sidebar = () => {
             dispatch(setIsOpen(!isOpen));
           }}
           className={`cursor-pointer p-1 px-[8.2px] rounded-full bg-primary text-white hover:bg-primary/80 transition-colors duration-200 focus:outline-none focus:ring-opacity-50 ${
-            !isOpen ? 'mx-auto' : ''
+            !isOpen ? 'mx-auto' : 'mr-2'
           }`}
           aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
         >
@@ -89,25 +89,24 @@ const Sidebar = () => {
         </Link>
       </header>
 
-      <nav>
-        <ul
-          className={`flex flex-col items-start w-full gap-2 ${
-            isOpen ? '' : 'overflow-hidden'
-          }`}
-        >
-          {SIDEBAR_NAV_ITEMS.map((nav, index) => {
-            const selected = pathname === nav.path;
-            const subcategoriesIsOpen = openCategories.includes(nav.title);
-            const isSubcategoryActive = nav.subcategories?.some((sub) =>
-              pathname.startsWith(sub.path)
-            );
-            const isLinkActive = selected || isSubcategoryActive;
+      <ul
+        className={`flex flex-col items-start w-full gap-2 ${
+          isOpen ? '' : 'overflow-hidden'
+        }`}
+      >
+        {SIDEBAR_NAV_ITEMS.map((nav, index) => {
+          const selected = pathname === nav.path;
+          const subcategoriesIsOpen = openCategories.includes(nav.title);
+          const isSubcategoryActive = nav.subcategories?.some((sub) =>
+            pathname.startsWith(sub.path)
+          );
+          const isLinkActive = selected || isSubcategoryActive;
 
-            return (
-              <li key={index} className="w-full flex flex-col items-start">
-                <Link
-                  to={nav.path}
-                  className={`flex w-full items-center gap-4 font-medium text-[13px] ease-in-out duration-200 rounded-lg 
+          return (
+            <li key={index} className="w-full flex flex-col items-start">
+              <Link
+                to={nav.path}
+                className={`flex w-full items-center gap-4 font-medium text-[13px] ease-in-out duration-200 rounded-lg 
                             ${isOpen ? 'px-4 py-3' : 'p-3 justify-center'}
                             hover:bg-primary/5 hover:text-primary
                             ${
@@ -115,90 +114,87 @@ const Sidebar = () => {
                                 ? 'bg-primary/10 text-primary font-semibold'
                                 : 'text-gray-700'
                             }`}
-                  onClick={(e) => {
-                    if (nav.subcategories) {
-                      e.preventDefault();
-                      if (!isOpen) {
-                        dispatch(setIsOpen(true));
-                      } else {
-                        toggleCategory(nav.title);
-                      }
+                onClick={(e) => {
+                  if (nav.subcategories) {
+                    e.preventDefault();
+                    if (!isOpen) {
+                      dispatch(setIsOpen(true));
                     } else {
-                      if (!isOpen) {
-                        dispatch(setIsOpen(true));
-                      }
+                      toggleCategory(nav.title);
                     }
-                  }}
-                  title={nav.title}
-                >
-                  <FontAwesomeIcon
-                    icon={nav.icon}
-                    className={`text-xl flex items-center 
+                  } else {
+                    if (!isOpen) {
+                      dispatch(setIsOpen(true));
+                    }
+                  }
+                }}
+                title={nav.title}
+              >
+                <FontAwesomeIcon
+                  icon={nav.icon}
+                  className={`text-xl flex items-center 
                               ${
                                 isLinkActive ? 'text-primary' : 'text-gray-600'
                               }`}
+                />
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={isOpen ? controlText : { opacity: 0 }}
+                  className="font-medium whitespace-nowrap"
+                >
+                  {nav.title}
+                </motion.span>
+                {nav.subcategories && isOpen && (
+                  <FontAwesomeIcon
+                    icon={subcategoriesIsOpen ? faChevronUp : faChevronDown}
+                    className="ml-auto text-base text-gray-400"
                   />
-                  <motion.span
-                    initial={{ opacity: 0 }}
-                    animate={isOpen ? controlText : { opacity: 0 }}
-                    className="font-medium whitespace-nowrap"
-                  >
-                    {nav.title}
-                  </motion.span>
-                  {nav.subcategories && isOpen && (
-                    <FontAwesomeIcon
-                      icon={subcategoriesIsOpen ? faChevronUp : faChevronDown}
-                      className="ml-auto text-base text-gray-400"
-                    />
-                  )}
-                </Link>
-                {nav.subcategories && subcategoriesIsOpen && isOpen && (
-                  <motion.ul
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.2, ease: 'easeInOut' }}
-                    className="pl-4 pr-4 w-full flex flex-col gap-1 my-2"
-                  >
-                    {nav.subcategories.map((sub, subIndex) => {
-                      const isSubLinkActive = pathname.startsWith(sub.path);
-                      return (
-                        <li key={subIndex}>
-                          <Link
-                            to={sub.path}
-                            className={`flex items-center w-full gap-3 px-4 py-3 font-medium text-xs ease-in-out duration-200 rounded-md 
+                )}
+              </Link>
+              {nav.subcategories && subcategoriesIsOpen && isOpen && (
+                <motion.ul
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  className="pl-4 pr-4 w-full flex flex-col gap-1 my-2"
+                >
+                  {nav.subcategories.map((sub, subIndex) => {
+                    const isSubLinkActive = pathname.startsWith(sub.path);
+                    return (
+                      <li key={subIndex}>
+                        <Link
+                          to={sub.path}
+                          className={`flex items-center w-full gap-3 px-4 py-3 font-medium text-xs ease-in-out duration-200 rounded-md 
                                       hover:bg-primary/5 hover:text-primary
                                       ${
                                         isSubLinkActive
                                           ? 'bg-primary/10 text-primary font-semibold'
                                           : 'text-gray-600'
                                       }`}
+                        >
+                          <FontAwesomeIcon
+                            icon={sub?.icon}
+                            className={`text-base ${
+                              isSubLinkActive ? 'text-primary' : 'text-gray-500'
+                            }`}
+                          />
+                          <motion.span
+                            animate={isOpen ? controlText : { opacity: 0 }}
+                            className="font-medium whitespace-nowrap"
                           >
-                            <FontAwesomeIcon
-                              icon={sub?.icon}
-                              className={`text-base ${
-                                isSubLinkActive
-                                  ? 'text-primary'
-                                  : 'text-gray-500'
-                              }`}
-                            />
-                            <motion.span
-                              animate={isOpen ? controlText : { opacity: 0 }}
-                              className="font-medium whitespace-nowrap"
-                            >
-                              {sub.title}
-                            </motion.span>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </motion.ul>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+                            {sub.title}
+                          </motion.span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </motion.ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </motion.aside>
   );
 };

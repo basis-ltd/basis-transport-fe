@@ -1,14 +1,12 @@
-import AppLayout from "@/containers/navigation/AppLayout";
+import Button from '@/components/inputs/Button';
 
 const Home = () => {
-    return (
-      <AppLayout>
-        <main className='min-h-[100vh] flex items-center justify-center'>
-          <h1 className='text-4xl font-bold'>Basis Transport</h1>
-        </main>
-      </AppLayout>
-    )
-  }
-  
-  export default Home;
-  
+  return (
+    <main className="h-screen w-full flex flex-col gap-4 bg-white items-center justify-center">
+      <h1 className="text-4xl font-bold">Basis Transport</h1>
+      <Button to={'/auth/login'}>Login</Button>
+    </main>
+  );
+};
+
+export default Home;

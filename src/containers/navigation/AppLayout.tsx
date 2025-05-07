@@ -17,12 +17,11 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
   const dispatch: AppDispatch = useDispatch();
 
   const sectionClasses = [
-    'pt-[9vh]',
-    'min-h-[91vh]',
-    'p-6 px-8',
-    'mt-4',
+    'absolute top-[9vh] left-0',
+    'h-[91vh]',
+    'px-8',
     'transition-all duration-300 ease-in-out bg-white',
-    isSidebarOpen ? 'ml-0 md:ml-[18vw]' : 'ml-16 md:ml-[6vw]',
+    isSidebarOpen ? 'ml-0 md:ml-[18vw] w-[calc(100%-18vw)]' : 'ml-16 md:ml-[6vw] w-[calc(100%-6vw)]',
   ].join(' ');
 
   return (
