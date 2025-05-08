@@ -18,12 +18,12 @@ const AppLayout: FC<AppLayoutProps> = ({ children }) => {
 
   const sectionClasses = [
     'absolute top-[9vh] left-0',
-    'h-[91vh]',
-    'px-8 py-6',
+    'h-[89.5vh]',
+    'px-8 py-6 mt-2 rounded-lg',
     'transition-all duration-300 ease-in-out bg-white',
     isSidebarOpen
-      ? 'ml-0 md:ml-[18vw] w-[calc(100%-18vw)]'
-      : 'ml-16 md:ml-[6vw] w-[calc(100%-6vw)]',
+      ? 'ml-[60vw] md:ml-[20vw] w-[calc(100vw-20.5vw)]'
+      : 'ml-[10vw] md:ml-[5vw] w-[calc(100vw-5.5vw)]',
   ].join(' ');
 
   return (

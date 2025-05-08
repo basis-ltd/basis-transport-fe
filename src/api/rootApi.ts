@@ -1,8 +1,9 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { localStorageAdapter } from '@/adapters/storage/localStorage.adapter';
+import { environment } from '@/constants/environment.constants';
 
-const prepareHeaders = (headers: Headers) => {
-  const token = localStorageAdapter.getItem('token');
+const prepareHeaders = async (headers: Headers) => {
+  const token = await localStorageAdapter.getItem('token');
   const randomKey = crypto.randomUUID();
   if (token) {
     headers.set('authorization', `Bearer ${token}`);
@@ -12,6 +13,6 @@ const prepareHeaders = (headers: Headers) => {
 };
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_API_URL,
+  baseUrl: environment.apiUrl,
   prepareHeaders,
 });

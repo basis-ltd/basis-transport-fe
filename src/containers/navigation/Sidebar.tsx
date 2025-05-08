@@ -53,8 +53,6 @@ const Sidebar = () => {
     );
   }, []);
 
-  const closedMobileWidth = 'w-16';
-
   return (
     <motion.aside
       className={`fixed top-[9vh] shadow-md left-0 h-[91vh] flex flex-col 
@@ -62,12 +60,10 @@ const Sidebar = () => {
                  ${isOpen ? 'z-[999]' : 'z-10'}
                  ${
                    isOpen
-                     ? 'w-[280px] sm:w-[300px] shadow-xl p-4'
-                     : `${closedMobileWidth} p-2 shadow-lg`
+                     ? 'w-[60vw] sm:w-[40vw] md:w-[20vw] shadow-xl p-4'
+                     : 'w-[10vw] md:w-[5vw] p-2 shadow-lg'
                  } 
-                 ${
-                   isOpen ? 'md:w-72' : 'md:w-16'
-                 } md:p-4 md:shadow-none md:z-auto`}
+                 md:p-4 md:shadow-none md:z-auto`}
     >
       <header
         className={`flex items-center w-full mb-4 
@@ -81,7 +77,7 @@ const Sidebar = () => {
             dispatch(setIsOpen(!isOpen));
           }}
           className={`cursor-pointer p-1 px-[8.2px] rounded-full bg-primary text-white hover:bg-primary/80 transition-colors duration-200 focus:outline-none focus:ring-opacity-50 ${
-            !isOpen ? 'mx-auto' : 'mr-2'
+            !isOpen ? 'mx-auto' : ''
           }`}
           aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
         >
